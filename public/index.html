@@ -251,6 +251,12 @@
                     <input type="email" id="applicantEmail" placeholder="juan@ejemplo.com">
                 </div>
                 <div>
+                    <label>WhatsApp (ej. +58414XXXXXXX)</label>
+                    <input type="text" id="applicantPhone" placeholder="+584141234567">
+                </div>
+            </div>
+            <div class="form-group" style="display: grid; grid-template-columns: 1fr; gap: 1rem;">
+                <div>
                     <label>N° Ficha</label>
                     <input type="text" id="applicantFicha" placeholder="Ej. 1330">
                 </div>
@@ -440,6 +446,7 @@
             const data = {
                 applicant_name: name,
                 applicant_email: email,
+                applicant_phone: document.getElementById('applicantPhone').value,
                 ficha: document.getElementById('applicantFicha').value,
                 cedula: document.getElementById('applicantCedula').value,
                 fecha_salida: document.getElementById('dateSalida').value,

@@ -10,6 +10,7 @@ dotenv.config();
 
 const PDFService = require('./services/pdfService');
 const SignatureService = require('./services/signatureService');
+const notificationService = require('./services/notificationService');
 
 const app = express();
 app.use(cors());
@@ -36,6 +37,7 @@ app.post('/api/requests', (req, res) => {
         fecha_salida: data.fecha_salida || 'N/A',
         fecha_retorno: data.fecha_retorno || 'N/A',
         dias_disfrutar: data.dias_disfrutar || '0',
+        applicant_phone: data.applicant_phone || null,
         periodo: data.periodo || '2025',
         description: data.description || '',
         status: 'PENDING_LEVEL_1',
@@ -103,11 +105,24 @@ app.post('/api/requests/:id/approve', async (req, res) => {
                 pdfPath
             );
             
-            if (sig_id) {
-                request.signature_request_id = sig_id;
-                request.signing_url = signing_info;
-                request.status = 'SIGNATURE_REQUESTED';
-            } else {
+                if (sig_id) {
+                    request.signature_request_id = sig_id;
+                    request.signing_url = signing_info;
+                    request.status = 'SIGNATURE_REQUESTED';
+
+                    // Trigger WhatsApp Notification
+                    if (request.applicant_phone) {
+                        try {
+                            await notificationService.sendWhatsAppNotification(
+                                request.applicant_phone,
+                                request.applicant_name,
+                                signing_info
+                            );
+                        } catch (wsError) {
+                            console.error('Error sending WhatsApp:', wsError);
+                        }
+                    }
+                } else {
                 request.status = 'ERROR_SIGNATURE';
             }
         } catch (err) {
