@@ -32,10 +32,9 @@ class NotificationService {
                 from: this.from,
                 to: formattedTo,
                 contentSid: this.templateSid,
-                // Mapeamos variables: 1 para el nombre, 2 para el enlace (ajustar según plantilla real)
                 contentVariables: JSON.stringify({
-                    "1": applicantName,
-                    "2": signingUrl
+                    "1": applicantName,  // Corresponde a {{1}} en la plantilla de Twilio
+                    "2": signingUrl      // Corresponde a {{2}} en la plantilla de Twilio
                 })
             });
 
