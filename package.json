@@ -1,0 +1,19 @@
+{
+  "name": "flujo-firma-digital",
+  "version": "1.0.0",
+  "description": "Prototipo de flujo de solicitudes con firma digital",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "@dropbox/sign": "^1.1.0",
+    "pdfkit": "^0.15.0",
+    "pdfkit-table": "^0.1.99",
+    "uuid": "^9.0.1"
+  }
+}

@@ -1,5 +1,0 @@
-flask
-fpdf2
-dropbox-sign
-python-dotenv
-flask-cors

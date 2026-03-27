@@ -538,7 +538,7 @@
             }
         }
 
-        function openSignatureModal() {
+        async function openSignatureModal() {
             if (isMockMode) {
                 const req = mockRequests.find(r => r.id === currentRequestId);
                 document.getElementById('mockSignDateTop').innerText = req.created_at || '21/01/2026';
@@ -553,7 +553,17 @@
                 document.getElementById('finishSignBtn').style.display = req.status === 'SIGNED' ? 'none' : 'block';
                 document.getElementById('signModal').style.display = 'flex';
             } else {
-                alert('En modo real, esto abriría el enlace de Dropbox Sign.');
+                // Real Mode
+                const res = await fetch(`${API_BASE}/requests/${currentRequestId}`);
+                const req = await res.json();
+                
+                if (req.signing_url) {
+                    // Open the official signing page
+                    window.open(req.signing_url, '_blank');
+                } else {
+                    // Fallback: Open the PDF
+                    window.open(`${API_BASE}/requests/${currentRequestId}/pdf`, '_blank');
+                }
             }
         }
 
